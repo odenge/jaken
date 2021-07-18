@@ -1,22 +1,32 @@
-from random import shuffle
+from random import randint
+
+class Card:
+    def __init__(self, m, n):
+        """[カード]
+        Args:
+            m ([int]): [マーク]
+            n ([int]): [名前]
+        """
+        self.mark = m
+        self.name = n
 
 class Deck:
     def __init__(self):
-        self.cards = {
+        self.cards = []
+        cards_setting = {
             "rock": "グー",
             "scissors": "チョキ",
             "paper": "パー",
         }
+        for mark, name in cards_setting.items():
+            self.cards.append(Card(mark, name))
 
-    def decide(self, card=""):
-        #cardの指定がある時には、指定されたカードを選択
-        if card:
-            while card not in self.cards:
-                card = input("カードが存在しません。再度、決めてください。: ")
-            return self.cards.pop(card)
-        else:
-            #コンピューターの時には、ランダムに修正していく（今はカード指定にしている）
-            return self.cards.pop("scissors")
+    def decide(self, input_card_number=0):
+        card_number = int(input_card_number)
+        while card_number < 0 or len(self.cards) <= card_number:
+            input_card_number = input("カードが存在しません。再度、決めてください。: ")
+            card_number = int(input_card_number)
+        return self.cards.pop(card_number)
 
 class Player:
     def __init__(self, name):
@@ -36,19 +46,22 @@ class Game:
 
     def print_decided_card(self, p1, p2):
         d = "{} は {}、 {} は {} を出しました"
-        print(d.format(p1.name, p1.card, p2.name, p2.card))
+        print(d.format(p1.name, p1.card.name, p2.name, p2.card.name))
 
     def print_remaining_card(self, p):
-        d = "{} のカードは {} です"
-        print(d.format(p.name, p.deck.cards))
+        cards_str_list = []
+        for i, card in enumerate(p.deck.cards):
+            cards_str_list.append( "{}: {}".format(i, card.name))
+        d = "{} のカードは【 {} 】です"
+        print(d.format(p.name, ",　".join(cards_str_list)))
 
     def play_game(self):
         print("\n-----【邪権　開始】------------------------------------------------------------\n")
 
         #カードを決める
-        decided_card = input("カードを決めてください: ")
-        self.p1.card = self.p1.deck.decide(decided_card)
-        self.p2.card = self.p2.deck.decide()
+        card_number = input("カードを決めてください（数値選択）: ")
+        self.p1.card = self.p1.deck.decide(card_number)
+        self.p2.card = self.p2.deck.decide(randint(0, len(self.p2.deck.cards)))
 
         #勝負
         print("\n-----【勝負】-----------------------------------------------------------------\n")
