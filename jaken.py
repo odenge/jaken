@@ -10,6 +10,26 @@ class Card:
         self.mark = m
         self.name = n
 
+    def __lt__(self, c2):
+        if self.mark == 'rock' and c2.mark == 'paper':
+            return True
+        elif self.mark == 'scissors' and c2.mark == 'rock':
+            return True
+        elif self.mark == 'paper' and c2.mark == 'scissors':
+            return True
+        else:
+            return False
+
+    def __gt__(self, c2):
+        if self.mark == 'rock' and c2.mark == 'scissors':
+            return True
+        elif self.mark == 'scissors' and c2.mark == 'paper':
+            return True
+        elif self.mark == 'paper' and c2.mark == 'rock':
+            return True
+        else:
+            return False
+
 class Deck:
     def __init__(self):
         self.cards = []
@@ -48,6 +68,13 @@ class Game:
         d = "{} は {}、 {} は {} を出しました"
         print(d.format(p1.name, p1.card.name, p2.name, p2.card.name))
 
+    def print_winner(self, winner=None):
+        if winner is None:
+            print("このターンは 引き分け です")
+        else:
+            w = "このターンは {} の勝ちです"
+            print(w.format(winner.name))
+
     def print_remaining_card(self, p):
         cards_str_list = []
         for i, card in enumerate(p.deck.cards):
@@ -66,6 +93,14 @@ class Game:
         #勝負
         print("\n-----【勝負】-----------------------------------------------------------------\n")
         self.print_decided_card(self.p1, self.p2)
+        if self.p1.card > self.p2.card:
+            self.p1.wins += 1
+            self.print_winner(self.p1)
+        elif self.p1.card < self.p2.card:
+            self.p2.wins += 1
+            self.print_winner(self.p2)
+        else:
+            self.print_winner()
 
         #お互いのカード確認
         print("\n-----【残りカード】------------------------------------------------------------\n")
