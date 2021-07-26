@@ -41,11 +41,21 @@ class Deck:
         for mark, name in cards_setting.items():
             self.cards.append(Card(mark, name))
 
-    def decide(self, input_card_number=0):
-        card_number = int(input_card_number)
-        while card_number < 0 or len(self.cards) <= card_number:
-            input_card_number = input("カードが存在しません。再度、決めてください。: ")
-            card_number = int(input_card_number)
+    def decide(self, card_number=''):
+        # 数字でカードを指定
+        while True:
+            try:
+                if card_number == '':
+                    card_number = input("カードを決めてください（数値選択）: ")
+                card_number = int(card_number)
+                if 0 <= card_number and card_number < len(self.cards):
+                    break
+                else:
+                    print("カードが存在しません")
+                    card_number=''
+            except ValueError:
+                print("数値で入力してください")
+                card_number=''
         return self.cards.pop(card_number)
 
 class Player:
@@ -86,8 +96,7 @@ class Game:
         print("\n-----【邪権　開始】------------------------------------------------------------\n")
 
         #カードを決める
-        card_number = input("カードを決めてください（数値選択）: ")
-        self.p1.card = self.p1.deck.decide(card_number)
+        self.p1.card = self.p1.deck.decide()
         self.p2.card = self.p2.deck.decide(randint(0, len(self.p2.deck.cards)))
 
         #勝負
