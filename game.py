@@ -3,14 +3,15 @@ from player import Player
 
 class Game:
     def __init__(self):
+        #ゲーム回数を設定
+        self.max_game_count = 3
+        print("\n-----【邪権　開始（" + str(self.max_game_count)  + "回勝負）】------------------------------------------------------------\n")
         #自分を設定
         name1 = input("プレーヤー1　名前: ")
         self.p1 = Player(name1)
         self.print_remaining_card(self.p1)
         #相手を設定
         self.p2 = Player("ライバル")
-        #ゲーム回数を設定
-        self.max_game_count = 3
 
     def print_decided_card(self, p1, p2):
         d = "{} は {}、 {} は {} を出しました"
@@ -42,7 +43,6 @@ class Game:
         print(results)
 
     def play_game(self):
-        print("\n-----【邪権　開始】------------------------------------------------------------\n")
         game_count = 1
         while game_count <= self.max_game_count:
             print("\n-----【" + str(game_count) + "回戦】-----------------------------------------------------------------\n")
