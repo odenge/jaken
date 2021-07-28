@@ -9,21 +9,29 @@ class Card:
         self.name = n
 
     def __lt__(self, c2):
-        if self.mark == 'rock' and c2.mark == 'paper':
+        if self.mark == 'rock' and (c2.mark == 'paper' or c2.mark == 'president'):
             return True
-        elif self.mark == 'scissors' and c2.mark == 'rock':
+        elif self.mark == 'scissors' and (c2.mark == 'rock' or c2.mark == 'president'):
             return True
-        elif self.mark == 'paper' and c2.mark == 'scissors':
+        elif self.mark == 'paper' and (c2.mark == 'scissors' or c2.mark == 'president'):
+            return True
+        elif self.mark == 'president' and c2.mark == 'employee':
+            return True
+        elif self.mark == 'employee' and c2.mark != 'employee' and c2.mark != 'president':
             return True
         else:
             return False
 
     def __gt__(self, c2):
-        if self.mark == 'rock' and c2.mark == 'scissors':
+        if self.mark == 'rock' and (c2.mark == 'scissors' or c2.mark == 'employee'):
             return True
-        elif self.mark == 'scissors' and c2.mark == 'paper':
+        elif self.mark == 'scissors' and (c2.mark == 'paper' or c2.mark == 'employee'):
             return True
-        elif self.mark == 'paper' and c2.mark == 'rock':
+        elif self.mark == 'paper' and (c2.mark == 'rock' or c2.mark == 'employee'):
+            return True
+        elif self.mark == 'president' and c2.mark != 'president' and c2.mark != 'employee':
+            return True
+        elif self.mark == 'employee' and c2.mark == 'president':
             return True
         else:
             return False
@@ -35,6 +43,8 @@ class Deck:
             "rock": "グー",
             "scissors": "チョキ",
             "paper": "パー",
+            "president": "社長",
+            "employee": "平社員",
         }
         for mark, name in cards_setting.items():
             self.cards.append(Card(mark, name))
