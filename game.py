@@ -10,7 +10,7 @@ class Game:
         #相手を設定
         self.p2 = Player("ライバル")
         #ゲーム回数を設定
-        self.max_game_count = 2
+        self.max_game_count = 3
 
     def print_decided_card(self, p1, p2):
         d = "{} は {}、 {} は {} を出しました"
