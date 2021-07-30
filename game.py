@@ -11,7 +11,7 @@ class Game:
         self.p1 = Player(name1)
         self.print_remaining_card(self.p1)
         #相手を設定
-        self.p2 = Player("ライバル")
+        self.p2 = Player("ライバル", randint(1, 3))
 
     def print_decided_card(self, p1, p2):
         d = "{} は {}、 {} は {} を出しました"
