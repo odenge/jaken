@@ -47,9 +47,14 @@ class Game:
         while game_count <= self.max_game_count:
             print("\n-----【" + str(game_count) + "回戦】-----------------------------------------------------------------\n")
 
-            #カードを決める
+            """[カードを決める]
+            ライバルはプレイヤーの現在の手持ちカードを確認し、出すカードを決める
+            プレイヤーはライバルの後にカードを決める（先に決めると、decideメソッドで自分のカードが減った状態を確認し、ライバルがカードを決める事になる為）
+            """
+            print("・・・【ライバル考え中】・・・\n")
+            self.p2.card = self.p2.deck.decide(self.p2.get_number_decided_p2(self.p1.deck.cards))
+            print("ライバルがカードを決めました\n")
             self.p1.card = self.p1.deck.decide()
-            self.p2.card = self.p2.deck.decide(randint(0, len(self.p2.deck.cards)))
 
             #勝負
             print("\n-----【勝負】-----------------------------------------------------------------\n")

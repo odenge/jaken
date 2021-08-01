@@ -54,7 +54,7 @@ class Deck:
         while True:
             try:
                 if card_number == '':
-                    card_number = input("カードを決めてください（数値選択）: ")
+                    card_number = input("あなたのカードを決めてください（数値選択）: ")
                 card_number = int(card_number)
                 if 0 <= card_number and card_number < len(self.cards):
                     break
