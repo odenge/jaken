@@ -1,4 +1,5 @@
 from random import randint
+from time import sleep
 from player import Player
 
 class Game:
@@ -45,19 +46,23 @@ class Game:
     def play_game(self):
         game_count = 1
         while game_count <= self.max_game_count:
+            sleep(2)
             print("\n-----【" + str(game_count) + "回戦】-----------------------------------------------------------------\n")
 
             """[カードを決める]
             ライバルはプレイヤーの現在の手持ちカードを確認し、出すカードを決める
             プレイヤーはライバルの後にカードを決める（先に決めると、decideメソッドで自分のカードが減った状態を確認し、ライバルがカードを決める事になる為）
             """
+            sleep(0.5)
             print("・・・【ライバル考え中】・・・\n")
+            sleep(0.8)
             self.p2.card = self.p2.deck.decide(self.p2.get_number_decided_p2(self.p1.deck.cards))
             print("ライバルがカードを決めました\n")
             self.p1.card = self.p1.deck.decide()
 
             #勝負
             print("\n-----【勝負】-----------------------------------------------------------------\n")
+            sleep(1.5)
             self.print_decided_card(self.p1, self.p2)
             if self.p1.card > self.p2.card:
                 self.p1.wins += 1
@@ -72,6 +77,7 @@ class Game:
                 break
             else:
                 #お互いのカード確認
+                sleep(1)
                 print("\n-----【残りカード】------------------------------------------------------------\n")
                 self.print_remaining_card(self.p1)
                 self.print_remaining_card(self.p2)
