@@ -6,13 +6,32 @@ class Game:
     def __init__(self):
         #ゲーム回数を設定
         self.max_game_count = 3
-        print("\n-----【邪権　開始（" + str(self.max_game_count)  + "回勝負）】------------------------------------------------------------\n")
+        self.print_message("邪権　開始（{}回勝負）".format(self.max_game_count), 1)
         #自分を設定
         name1 = input("プレーヤー1　名前: ")
         self.p1 = Player(name1)
         self.print_remaining_card(self.p1)
         #相手を設定
         self.p2 = Player("ライバル", randint(1, 3))
+
+    def print_message(self, message, format=0, sleep_time=0, newline_number=None):
+        sleep(sleep_time)
+        if format == 0:
+            m = "{}{}"
+            format_newline_number = 1
+        elif format == 1:
+            m = "-----【{}】------------------------------------------------------------{}"
+            format_newline_number = 2
+        elif format == 2:
+            m = "「{}」{}"
+            format_newline_number = 1
+        else:
+            m = "{}{}"
+            format_newline_number = 1
+        if newline_number is not None:
+            format_newline_number = newline_number
+        newline = "\n" * format_newline_number
+        print(m.format(message, newline))
 
     def print_decided_card(self, p1, p2):
         d = "{} は {}、 {} は {} を出しました"
@@ -46,8 +65,7 @@ class Game:
     def play_game(self):
         game_count = 1
         while game_count <= self.max_game_count:
-            sleep(2)
-            print("\n-----【" + str(game_count) + "回戦】-----------------------------------------------------------------\n")
+            self.print_message("{}回戦".format(game_count), 1, 2)
 
             """[カードを決める]
             ライバルはプレイヤーの現在の手持ちカードを確認し、出すカードを決める
@@ -61,7 +79,7 @@ class Game:
             self.p1.card = self.p1.deck.decide()
 
             #勝負
-            print("\n-----【勝負】-----------------------------------------------------------------\n")
+            self.print_message("勝負", 1)
             sleep(1.5)
             self.print_decided_card(self.p1, self.p2)
             if self.p1.card > self.p2.card:
@@ -78,10 +96,10 @@ class Game:
             else:
                 #お互いのカード確認
                 sleep(1)
-                print("\n-----【残りカード】------------------------------------------------------------\n")
+                self.print_message("残りカード", 1)
                 self.print_remaining_card(self.p1)
                 self.print_remaining_card(self.p2)
                 game_count += 1
-        print("\n-----【結果】------------------------------------------------------------\n")
+        self.print_message("結果", 1)
         self.print_results(self.p1, self.p2)
-        print("\n-----【邪権　終了】------------------------------------------------------------\n")
+        self.print_message("邪権　終了", 1)
