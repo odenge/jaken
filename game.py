@@ -18,16 +18,16 @@ class Game:
         sleep(sleep_time)
         if format == 0:
             m = "{}{}"
-            format_newline_number = 1
+            format_newline_number = 0
         elif format == 1:
             m = "-----【{}】------------------------------------------------------------{}"
-            format_newline_number = 2
+            format_newline_number = 1
         elif format == 2:
             m = "「{}」{}"
             format_newline_number = 1
         else:
             m = "{}{}"
-            format_newline_number = 1
+            format_newline_number = 0
         if newline_number is not None:
             format_newline_number = newline_number
         newline = "\n" * format_newline_number
@@ -35,21 +35,21 @@ class Game:
 
     def print_decided_card(self, p1, p2):
         d = "{} は {}、 {} は {} を出しました"
-        print(d.format(p1.name, p1.card.name, p2.name, p2.card.name))
+        self.print_message(d.format(p1.name, p1.card.name, p2.name, p2.card.name), 0, 1)
 
     def print_winner(self, winner=None):
         if winner is None:
-            print("このターンは 引き分け です")
+            message = "このターンは 引き分け です"
         else:
-            w = "このターンは {} の勝ちです"
-            print(w.format(winner.name))
+            message = "このターンは {} の勝ちです".format(winner.name)
+        self.print_message(message, 0, 1.5, 1)
 
     def print_remaining_card(self, p):
         cards_str_list = []
         for i, card in enumerate(p.deck.cards):
             cards_str_list.append( "{}: {}".format(i, card.name))
         d = "{} のカードは【 {} 】です"
-        print(d.format(p.name, ",　".join(cards_str_list)))
+        self.print_message(d.format(p.name, ",　".join(cards_str_list)))
 
     def print_results(self, p1, p2):
         results = ''
@@ -60,27 +60,23 @@ class Game:
             results = w.format(p2.name)
         else:
             results = "引き分け！"
-        print(results)
+        self.print_message(results, 0, 1, 1)
 
     def play_game(self):
         game_count = 1
         while game_count <= self.max_game_count:
-            self.print_message("{}回戦".format(game_count), 1, 2)
+            self.print_message("{}回戦".format(game_count), 1, 1)
 
             """[カードを決める]
             ライバルはプレイヤーの現在の手持ちカードを確認し、出すカードを決める
             プレイヤーはライバルの後にカードを決める（先に決めると、decideメソッドで自分のカードが減った状態を確認し、ライバルがカードを決める事になる為）
             """
-            sleep(0.5)
-            print("・・・【ライバル考え中】・・・\n")
-            sleep(0.8)
             self.p2.card = self.p2.deck.decide(self.p2.get_number_decided_p2(self.p1.deck.cards))
-            print("ライバルがカードを決めました\n")
+            self.print_message("ライバルがカードを決めました", 0, 0, 1)
             self.p1.card = self.p1.deck.decide()
 
             #勝負
             self.print_message("勝負", 1)
-            sleep(1.5)
             self.print_decided_card(self.p1, self.p2)
             if self.p1.card > self.p2.card:
                 self.p1.wins += 1
@@ -95,11 +91,11 @@ class Game:
                 break
             else:
                 #お互いのカード確認
-                sleep(1)
-                self.print_message("残りカード", 1)
+                self.print_message("残りカード", 1, 1.5)
                 self.print_remaining_card(self.p1)
                 self.print_remaining_card(self.p2)
                 game_count += 1
+            sleep(5)
         self.print_message("結果", 1)
         self.print_results(self.p1, self.p2)
         self.print_message("邪権　終了", 1)
