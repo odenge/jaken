@@ -14,24 +14,30 @@ class Game:
         #相手を設定
         self.p2 = Player("ライバル", randint(1, 3))
 
-    def print_message(self, message, format=0, sleep_time=0, newline_number=None):
+    def print_message(self, message, format=0, sleep_time=0, end_newline_number=None, start_newline_number=None):
         sleep(sleep_time)
-        if format == 0:
-            m = "{}{}"
-            format_newline_number = 0
-        elif format == 1:
-            m = "-----【{}】------------------------------------------------------------{}"
-            format_newline_number = 1
+        if format == 1:
+            f = "{}-----【{}】------------------------------------------------------------{}"
+            f_start_newline_number = 1
+            f_end_newline_number = 1
         elif format == 2:
-            m = "「{}」{}"
-            format_newline_number = 1
+            f = "{}「{}」{}"
+            f_start_newline_number = 0
+            f_end_newline_number = 1
         else:
-            m = "{}{}"
-            format_newline_number = 0
-        if newline_number is not None:
-            format_newline_number = newline_number
-        newline = "\n" * format_newline_number
-        print(m.format(message, newline))
+            f = "{}{}{}"
+            f_start_newline_number = 0
+            f_end_newline_number = 0
+
+        if start_newline_number is not None:
+            f_start_newline_number = start_newline_number
+        start_newline = "\n" * f_start_newline_number
+
+        if end_newline_number is not None:
+            f_end_newline_number = end_newline_number
+        end_newline = "\n" * f_end_newline_number
+
+        print(f.format(start_newline, message, end_newline))
 
     def print_decided_card(self, p1, p2):
         d = "{} は {}、 {} は {} を出しました"
@@ -42,7 +48,7 @@ class Game:
             message = "このターンは 引き分け です"
         else:
             message = "このターンは {} の勝ちです".format(winner.name)
-        self.print_message(message, 0, 1.5, 1)
+        self.print_message(message, 0, 1.5)
 
     def print_remaining_card(self, p):
         cards_str_list = []
@@ -60,7 +66,7 @@ class Game:
             results = w.format(p2.name)
         else:
             results = "引き分け！"
-        self.print_message(results, 0, 1, 1)
+        self.print_message(results, 0, 1)
 
     def play_game(self):
         game_count = 1
