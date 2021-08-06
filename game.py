@@ -68,7 +68,7 @@ class Game:
             results = "引き分け！"
         self.print_message(results, 0, 1)
 
-    def play_game(self):
+    def play(self):
         game_count = 1
         while game_count <= self.max_game_count:
             self.print_message("{}回戦".format(game_count), 1, 1)
