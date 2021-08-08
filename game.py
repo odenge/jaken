@@ -21,6 +21,12 @@ class Game:
             f_start_newline_number = 1
             f_end_newline_number = 1
         elif format == 2:
+            f = """{}■■■■■■■■■■■■■■
+     {}
+■■■■■■■■■■■■■■{}"""
+            f_start_newline_number = 0
+            f_end_newline_number = 1
+        elif format == 3:
             f = "{}「{}」{}"
             f_start_newline_number = 0
             f_end_newline_number = 1
@@ -58,22 +64,27 @@ class Game:
         self.print_message(d.format(p.name, ",　".join(cards_str_list)))
 
     def print_results(self, p1, p2):
-        results = ''
+        results = ""
+        results_game = ""
         w = "{} の勝利です！"
         if p1.wins > p2.wins:
             results = w.format(p1.name)
+            results_game = "WIN"
         elif p1.wins < p2.wins:
             results = w.format(p2.name)
+            results_game = "LOSE"
         else:
             results = "引き分け！"
-        self.print_message(results, 0, 1)
+        if results_game != "":
+            self.print_message(results_game, 2, 2)
+        self.print_message(results, 0)
 
     def play(self):
         game_count = 1
         game_count_print_sleep_time = 1
         while game_count <= self.max_game_count:
             if 1 < game_count:
-                game_count_print_sleep_time = 2.5
+                game_count_print_sleep_time = 2
             self.print_message("{}回戦".format(game_count), 1, game_count_print_sleep_time)
 
             """[カードを決める]
