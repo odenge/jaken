@@ -70,15 +70,18 @@ class Game:
 
     def play(self):
         game_count = 1
+        game_count_print_sleep_time = 1
         while game_count <= self.max_game_count:
-            self.print_message("{}回戦".format(game_count), 1, 1)
+            if 1 < game_count:
+                game_count_print_sleep_time = 2.5
+            self.print_message("{}回戦".format(game_count), 1, game_count_print_sleep_time)
 
             """[カードを決める]
             ライバルはプレイヤーの現在の手持ちカードを確認し、出すカードを決める
             プレイヤーはライバルの後にカードを決める（先に決めると、decideメソッドで自分のカードが減った状態を確認し、ライバルがカードを決める事になる為）
             """
             self.p2.card = self.p2.deck.decide(self.p2.get_number_decided_p2(self.p1.deck.cards))
-            self.print_message("ライバルがカードを決めました", 0, 0, 1)
+            self.print_message("ライバルがカードを決めました", 0, 1, 1)
             self.p1.card = self.p1.deck.decide()
 
             #勝負
@@ -101,7 +104,6 @@ class Game:
                 self.print_remaining_card(self.p1)
                 self.print_remaining_card(self.p2)
                 game_count += 1
-            sleep(5)
         self.print_message("結果", 1)
         self.print_results(self.p1, self.p2)
         self.print_message("邪権　終了", 1)
