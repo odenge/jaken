@@ -3,7 +3,7 @@
 ## ゲーム開始
 
 ```
-python jaken.py
+python3 jaken.py
 ```
 
 ## ルール
